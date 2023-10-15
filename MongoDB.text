@@ -1,0 +1,94 @@
+CRUD
+1.Create : insertOne, insertMany,mongoimport
+2.Read
+3.Update
+4.Delete
+
+Read Operations in MongoDB
+1.Comparison Operators
+2.Logical Operators
+3.Cursors in MongoDB
+4.Elements Operators
+
+Comparison Operators
+1.$eq : ==
+2.$ne : !=
+3.$gt : >
+4.$gte : >=
+5.$lt : <
+6.$lte: <=
+7.$in :
+8.$nin:
+
+db.collection_name.find({'marks':{$gt:value}})
+
+Syntax for $in or $nin
+
+db.collection_name.find('price':{$in:[56,76,102]})
+
+Cursor Methods (Caveats)
+
+1.count()
+2.limit()
+3.skip()
+4.sort()
+
+db.collection_name.find().count()
+db.collection_name.find().limit(5) - returns the initial data
+db.collection_name.find().skip(4)
+db.collection_name.find().sort({'rating':1})
+
+descedning / ascending (in sort method)
+
+Issues with Cursor
+
+Performance implications:
+1.skip(<offset>) is inefficient for large offset
+2.sort() may also take too much time in giving the data
+
+USE WITH CAUTION
+1. indexing: later classes
+
+Logical Operators
+1.$and 
+2.$or
+3.$not
+4.$nor
+
+1= true
+0=false
+
+1 nor 1 = 0       not 1 = 0
+1 nor 0 = 0       not 0 = 1
+0 nor 0 = 1
+
+Syntax nor , or
+{$and:[{condition1},{condition2}....]}
+
+Syntax not
+{field:{$not:{condition}}}  --> conditions -> Comparison Operators
+
+COMPLEX EXPRESSIONS
+
+     "id": 1,
+            "title": "iPhone 9",
+            "description": "An apple mobile which is nothing like apple",
+            "price": 549,
+            "discountPercentage": 12.96,
+            "rating": 4.69,
+            "stock": 94,
+            "net revenue": 60000,
+            
+        }
+
+        Find Objects whose price*stock > 'net revenue'
+
+        db.collection.find({$expr:{$gt:[{$multiply:['$stock','$price']},'$net revenue']}})
+
+        $expr:
+
+        1.This allows using aggregation expressions within query
+        2.When you need to compare fields from same doc. in more complex manner
+        3.Syntax: {$expr:{$gt:['price',200]}}
+
+        db.collection.find({$expr:{$lt:[{$multiply:['$stock','$price']},'$net_revenue']}})
